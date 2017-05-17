@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="請先#include 。無聊的話可在linux下man printf，可以看到很多解釋。不過我這邊將以c語言特性來講解。 sprintf1int sprintf(char *str, const char *format, ...); str必須要事先聲明的buffer。因此將後面的string放到str中，會有overflow的風險！在linux man當中還提到sprintf為BUG，因此還是">
+    <meta name="description" content="請先#include &amp;lt;stdio.h&amp;gt;。無聊的話可在linux下man printf，可以看到很多解釋。不過我這邊將以c語言特性來講解。 sprintf1int sprintf(char *str, const char *format, ...); str必須要事先聲明的buffer。因此將後面的string放到str中，會有overflow的風險！在linux man當中還提到s">
 <meta name="keywords" content="C,gcc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="About *printf">
 <meta property="og:url" content="http://yoursite.com/2017/05/17/About-printf/index.html">
 <meta property="og:site_name" content="Anthony">
-<meta property="og:description" content="請先#include 。無聊的話可在linux下man printf，可以看到很多解釋。不過我這邊將以c語言特性來講解。 sprintf1int sprintf(char *str, const char *format, ...); str必須要事先聲明的buffer。因此將後面的string放到str中，會有overflow的風險！在linux man當中還提到sprintf為BUG，因此還是">
-<meta property="og:updated_time" content="2017-05-17T03:12:21.000Z">
+<meta property="og:description" content="請先#include &amp;lt;stdio.h&amp;gt;。無聊的話可在linux下man printf，可以看到很多解釋。不過我這邊將以c語言特性來講解。 sprintf1int sprintf(char *str, const char *format, ...); str必須要事先聲明的buffer。因此將後面的string放到str中，會有overflow的風險！在linux man當中還提到s">
+<meta property="og:updated_time" content="2017-05-17T03:24:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="About *printf">
-<meta name="twitter:description" content="請先#include 。無聊的話可在linux下man printf，可以看到很多解釋。不過我這邊將以c語言特性來講解。 sprintf1int sprintf(char *str, const char *format, ...); str必須要事先聲明的buffer。因此將後面的string放到str中，會有overflow的風險！在linux man當中還提到sprintf為BUG，因此還是">
+<meta name="twitter:description" content="請先#include &amp;lt;stdio.h&amp;gt;。無聊的話可在linux下man printf，可以看到很多解釋。不過我這邊將以c語言特性來講解。 sprintf1int sprintf(char *str, const char *format, ...); str必須要事先聲明的buffer。因此將後面的string放到str中，會有overflow的風險！在linux man當中還提到s">
     
     
         
@@ -135,13 +135,13 @@
   
 
   <div class="content" itemprop="articleBody">
-    <p>請先#include <stdio.h>。<br>無聊的話可在linux下<code>man printf</code>，可以看到很多解釋。不過我這邊將以c語言特性來講解。</stdio.h></p>
+    <p>請先<code>#include &lt;stdio.h&gt;</code>。<br>無聊的話可在linux下<code>man printf</code>，可以看到很多解釋。不過我這邊將以c語言特性來講解。</p>
 <h3 id="sprintf"><a href="#sprintf" class="headerlink" title="sprintf"></a>sprintf</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">sprintf</span><span class="params">(<span class="keyword">char</span> *str, <span class="keyword">const</span> <span class="keyword">char</span> *format, ...)</span></span>;</div></pre></td></tr></table></figure>
 <p>str必須要事先聲明的buffer。因此將後面的string放到str中，會有overflow的風險！<br>在linux man當中還提到sprintf為BUG，因此還是少用～</p>
 <h3 id="snprintf"><a href="#snprintf" class="headerlink" title="snprintf"></a>snprintf</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">snprintf</span><span class="params">(<span class="keyword">char</span> *str, <span class="keyword">size_t</span> size, <span class="keyword">const</span> <span class="keyword">char</span> *format, ...)</span></span>;</div></pre></td></tr></table></figure>
-<p>在使用<code>snprintf</code>之前，請先<code>malloc</code>一個buffer，這樣動態的使用會比較安全。<br>這邊需要告訴<code>snprint</code>你所需要的size，並且在最後不需要使用str時，請<code>free(str)</code>!b若你給予的buffer size不夠時，每個名台的回傳值都不一樣，不過ISOC99是表示會回傳你最多可以使用的長度，因此不會發生跟<code>sprintf</code>一樣的overflow。<br>並且size的長度是包含<code>&#39;\0&#39;</code>，所以在自己測量長度時也別忘了plus 1。</p>
+<p>在使用<code>snprintf</code>之前，請先<code>malloc</code>一個buffer，這樣動態的使用會比較安全。<br>這邊需要告訴<code>snprint</code>你所需要的size，並且在最後不需要使用str時，請<code>free(str)</code>(若不是malloc方式的話，就不需要free)!<br>若你給予的buffer size不夠時，每個platform(Linux,BSD…etc)的回傳值都不一樣，不過ISOC99是表示會回傳你最多可以使用的長度，因此不會發生跟<code>sprintf</code>一樣的overflow。<br>並且size的長度是包含<code>&#39;\0&#39;</code>，所以在自己測量長度時也別忘了plus 1。</p>
 <h3 id="asprintf"><a href="#asprintf" class="headerlink" title="asprintf"></a>asprintf</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">asprintf</span><span class="params">(<span class="keyword">char</span> **str, <span class="keyword">const</span> <span class="keyword">char</span> *format, ...)</span></span>;</div></pre></td></tr></table></figure>
-<p>這個api在linux man上沒看到，主要是傳送address of str，然後會幫你執行<code>strlen</code>，因此char後面別忘了要有<code>&#39;\0&#39;</code>。大致用法跟<code>snprintf</code>差不多，都是避免使用者發生overflow的安全問題。<br><code>asprintf</code>目前是由GNU 提供，若要使用可能需要<code>include &lt;asprintf.h&gt;</code>。21st c這本書上有asprintf的實作跟講解，有興趣的可以去翻一翻。主要用到<code>vsnprintf</code>跟<code>malloc</code>方式實作。</p>
+<p>這個api在linux man上沒看到。需要傳送 address of str，因為底層需要幫你malloc memory。大致用法跟<code>snprintf</code>差不多，都是避免使用者發生overflow的安全問題。<br>長度測量的方式很特別，GNU是使用<code>vsprintf(str,1,fmt,arg)</code>，給長度1，return可以得到最大的長度，也就是我們所需的str長度。<br><code>asprintf</code>目前是由GNU 提供，若要使用可能需要<code>include &lt;asprintf.h&gt;</code>。21st c這本書上有asprintf的實作跟講解，有興趣的可以去翻一翻。主要用到<code>vsnprintf</code>跟<code>malloc</code>方式實作。</p>
 <h3 id="vsnprintf"><a href="#vsnprintf" class="headerlink" title="vsnprintf"></a>vsnprintf</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">vsnprintf</span><span class="params">(<span class="keyword">char</span> *str, <span class="keyword">size_t</span> size, <span class="keyword">const</span> <span class="keyword">char</span> *format, va_list ap)</span></span>;</div></pre></td></tr></table></figure>
 <p>snprintf跟vsnprintf都需要ISOC99以上才支援。<br>在linux是由<code>#include &lt;stdarg.h&gt;</code>支援v開頭的。效用跟<code>snprintf</code>一樣，主要是最後變數是提供<code>va_list</code>。可以方便使用者直接將argument，也就是你在定義function時會在argument定義為(…)時，這個…的變數會變成va_list的list;詳請請自行去看基本C語言的書籍，這邊不贅述。</p>
 <p>ps. 有看到網路上也有人在講解，覺得講得不錯。在此附上<a href="http://www.cnblogs.com/ph829/p/4089837.html" target="_blank" rel="external">連結</a>。<br>reference : Linux man, 21st century C.</p>
