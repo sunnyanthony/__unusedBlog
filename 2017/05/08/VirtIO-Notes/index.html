@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="VirtIO Notes目前正在hackmd上撰寫IO virtualization的筆記。主要是整理之前上課的筆記，課程的ilms連結為class。之前上這門課我只有認真聽網路虛擬化的部分（因為論文是跟SDN有關），導致其他部分都沒有太認真上。也因為最近工作的關係會碰到virtio，因此就有整理virtio筆記跟彌補以前不認真的的念頭。hackmd的連結如下：  https://hackmd.i">
+    <meta name="description" content="VirtIO Notes可以先去看Youtube 影片 - VirtIO 1.0:A Standard Emerges on linux conf.au 2014，是不錯的入門。主要是整理之前上課的筆記，課程的ilms連結為class。之前上這門課我只有認真聽網路虛擬化的部分（因為論文是跟SDN有關），導致其他部分都沒有太認真上。也因為最近工作的關係會碰到virtio，因此就有整理virtio筆記">
 <meta name="keywords" content="hackmd,virtualization,virtio,notes">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VirtIO Notes">
 <meta property="og:url" content="http://yoursite.com/2017/05/08/VirtIO-Notes/index.html">
 <meta property="og:site_name" content="Anthony">
-<meta property="og:description" content="VirtIO Notes目前正在hackmd上撰寫IO virtualization的筆記。主要是整理之前上課的筆記，課程的ilms連結為class。之前上這門課我只有認真聽網路虛擬化的部分（因為論文是跟SDN有關），導致其他部分都沒有太認真上。也因為最近工作的關係會碰到virtio，因此就有整理virtio筆記跟彌補以前不認真的的念頭。hackmd的連結如下：  https://hackmd.i">
-<meta property="og:updated_time" content="2017-05-08T01:53:36.000Z">
+<meta property="og:description" content="VirtIO Notes可以先去看Youtube 影片 - VirtIO 1.0:A Standard Emerges on linux conf.au 2014，是不錯的入門。主要是整理之前上課的筆記，課程的ilms連結為class。之前上這門課我只有認真聽網路虛擬化的部分（因為論文是跟SDN有關），導致其他部分都沒有太認真上。也因為最近工作的關係會碰到virtio，因此就有整理virtio筆記">
+<meta property="og:updated_time" content="2017-06-27T02:18:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="VirtIO Notes">
-<meta name="twitter:description" content="VirtIO Notes目前正在hackmd上撰寫IO virtualization的筆記。主要是整理之前上課的筆記，課程的ilms連結為class。之前上這門課我只有認真聽網路虛擬化的部分（因為論文是跟SDN有關），導致其他部分都沒有太認真上。也因為最近工作的關係會碰到virtio，因此就有整理virtio筆記跟彌補以前不認真的的念頭。hackmd的連結如下：  https://hackmd.i">
+<meta name="twitter:description" content="VirtIO Notes可以先去看Youtube 影片 - VirtIO 1.0:A Standard Emerges on linux conf.au 2014，是不錯的入門。主要是整理之前上課的筆記，課程的ilms連結為class。之前上這門課我只有認真聽網路虛擬化的部分（因為論文是跟SDN有關），導致其他部分都沒有太認真上。也因為最近工作的關係會碰到virtio，因此就有整理virtio筆記">
     
     
         
@@ -137,11 +137,12 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h1 id="VirtIO-Notes"><a href="#VirtIO-Notes" class="headerlink" title="VirtIO Notes"></a>VirtIO Notes</h1><p>目前正在hackmd上撰寫IO virtualization的筆記。<br>主要是整理之前上課的筆記，課程的ilms連結為<a href="http://lms.nthu.edu.tw/course/20998" target="_blank" rel="external">class</a>。之前上這門課我只有認真聽網路虛擬化的部分（因為論文是跟SDN有關），導致其他部分都沒有太認真上。也因為最近工作的關係會碰到virtio，因此就有整理virtio筆記跟彌補以前不認真的的念頭。<br>hackmd的連結如下：</p>
+    <h1 id="VirtIO-Notes"><a href="#VirtIO-Notes" class="headerlink" title="VirtIO Notes"></a>VirtIO Notes</h1><p>可以先去看<a href="https://www.youtube.com/watch?v=FY-iQnrrOgk" target="_blank" rel="external">Youtube 影片 - VirtIO 1.0:A Standard Emerges on linux conf.au 2014</a>，是不錯的入門。<br>主要是整理之前上課的筆記，課程的ilms連結為<a href="http://lms.nthu.edu.tw/course/20998" target="_blank" rel="external">class</a>。之前上這門課我只有認真聽網路虛擬化的部分（因為論文是跟SDN有關），導致其他部分都沒有太認真上。也因為最近工作的關係會碰到virtio，因此就有整理virtio筆記跟彌補以前不認真的的念頭。<br>hackmd的連結如下：</p>
 <ul>
 <li><a href="https://hackmd.io/CwTgHCCMAMBmBMBaA7LAJgI0aNBmRGwYApipMAGyzGyzmxhA?view" target="_blank" rel="external">https://hackmd.io/CwTgHCCMAMBmBMBaA7LAJgI0aNBmRGwYApipMAGyzGyzmxhA?view</a></li>
 </ul>
-<p>目前還不考慮把hackmd移來這裡，想把hackmd當作文件的方式，因此是透過連結的方式給予。不過之後也可能會整理重點或是trace virtio相關的notes放到這邊。</p>
+<p>目前還不考慮把hackmd移來這裡，想把hackmd當作文件的方式，因此是透過連結的方式給予。不過之後也可能會整理重點或是trace virtio相關的notes放到這邊。<br>目前已經整了virtio大綱，其實就是在介紹virtio最重要的virtqueue。所有的virtio device都會使用virtqueue來操作，讓自己做好device driver的工作就好。</p>
+<p>PS.Linux描述virtio device在device tree是透過virtio mmio，可自行查閱相關內容，蠻簡單的。</p>
 
   </div>
 </article>
