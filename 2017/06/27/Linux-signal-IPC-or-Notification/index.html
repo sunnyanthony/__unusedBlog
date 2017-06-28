@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang=Ch>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Signal is a IPC machanism in UNIX. You also can call signals are traps(software interrputs).Use signals can achieve asynchronous event(notification).  In the user spaceFirst, we need to set up signal">
+<meta name="keywords" content="Linux,IPC,signal,ldd">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux signal - IPC or Notification">
+<meta property="og:url" content="http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/index.html">
+<meta property="og:site_name" content="Anthony">
+<meta property="og:description" content="Signal is a IPC machanism in UNIX. You also can call signals are traps(software interrputs).Use signals can achieve asynchronous event(notification).  In the user spaceFirst, we need to set up signal">
+<meta property="og:updated_time" content="2017-06-28T03:04:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux signal - IPC or Notification">
+<meta name="twitter:description" content="Signal is a IPC machanism in UNIX. You also can call signals are traps(software interrputs).Use signals can achieve asynchronous event(notification).  In the user spaceFirst, we need to set up signal">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Linux signal - IPC or Notification</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/sunnyanthony">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2017/06/24/About-sysfs/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&text=Linux signal - IPC or Notification"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&is_video=false&description=Linux signal - IPC or Notification"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Linux signal - IPC or Notification&body=Check out this article: http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&name=Linux signal - IPC or Notification&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#In-the-user-space"><span class="toc-number">1.</span> <span class="toc-text">In the user space</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#In-the-Kernel-space"><span class="toc-number">2.</span> <span class="toc-text">In the Kernel space</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Linux signal - IPC or Notification
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Anthony</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-06-27T09:55:00.000Z" itemprop="datePublished">2017-06-27</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/IPC/">IPC</a>, <a class="tag-link" href="/tags/Linux/">Linux</a>, <a class="tag-link" href="/tags/ldd/">ldd</a>, <a class="tag-link" href="/tags/signal/">signal</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Signal is a IPC machanism in UNIX. You also can call signals are traps(software interrputs).<br>Use signals can achieve asynchronous event(notification). </p>
+<h2 id="In-the-user-space"><a href="#In-the-user-space" class="headerlink" title="In the user space"></a>In the user space</h2><p>First, we need to set up signal set. You can find signals number(signum, e.g SIGHUP, SIGINT…) in <code>signal.h</code>.<br>We use some setting function to setup signal set(sigset) as follows.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">int sigemptyset(sigset_t *set)； - initialize set</div><div class="line">int sigfillset(sigset_t *set)； - fill 1 into set</div><div class="line">int sigaddset(sigset_t *set, int signum) ; - add a signal into set</div><div class="line">int sigdelset(sigset_t *set, int signum)； - delete a signal from set</div><div class="line">int sigismember(const sigset_t *set, int signum)； - find the signal is in set or not</div></pre></td></tr></table></figure></p>
+<p>Second, We can use sigaction(2) to set up signal handler. It will tell the kernel what signals want to catch by the handler.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int sigaction(int signum,</div><div class="line">              const struct sigaction *act,</div><div class="line">              struct sigaction *oldact);</div></pre></td></tr></table></figure></p>
+<p>And the handler is put into <code>struct sigaction</code>, e.g. <code>sigaction.sa_handler = signal_handler</code>.<br>After register the signal set, we can use kill(2) or raise(3) to send signal to a process.<br>Or, you can use alarm(3) to set a timer.<br>And then, the signal will be trigger and doing signal handler.<br>Note. The signal handler has to use reentrant functions. you can reference binary hacks or APUE related topic.</p>
+<p>The signal handler can do some purpose:</p>
+<ul>
+<li>Ignore the signal set which is set by yourself except SIGKILL and SIGSTOP.</li>
+<li>Handle and doing something you need</li>
+<li>Do default action</li>
+</ul>
+<p>Finally, we can set a file to send a SIGIO to your process.</p>
+<ol>
+<li>setup signal handler</li>
+<li>use fcntl(2)<br>e.g.<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">signal setting...</div><div class="line">fcntl(fd,F_SETOWN,getpid()); /* tell kernel which process want to be sent a SIGIO *</div><div class="line">oflags = fcntl(fd, F_GETFL); /* get old file flag */</div><div class="line">fcntl(fd, F_SETFL, oflags | FASYNC); /* set FASYNC flag  */</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>Note. If you setting more than one file, you just use select or poll to know which file sending it.</p>
+<h2 id="In-the-Kernel-space"><a href="#In-the-Kernel-space" class="headerlink" title="In the Kernel space"></a>In the Kernel space</h2><p>The kernel use <code>send_sig_info()</code> to send signal to a process.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int send_sig_info(int sig,</div><div class="line">                 struct siginfo *info,</div><div class="line">                 struct task_struct *p);</div></pre></td></tr></table></figure></p>
+<p>The kernel supports some function to setup as follows.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">int fasync_helper(int fd, struct file *filp,</div><div class="line">                  int mode, struct fasync_struct **fa);</div><div class="line">int kill_fasync(struct fasync_struct **fa</div><div class="line">                int sig, int band);</div></pre></td></tr></table></figure></p>
+<p>The <code>fasync_helpr</code> is included in file.afasync(). And the <code>kill_fasync</code> can be included into any you want to notify functions.</p>
+<p>Reference :<br>            Stevens, W. Richard, and Stephen A. Rago. Advanced programming in the UNIX environment. Addison-Wesley, 2013.<br>            Corbet, Jonathan, Alessandro Rubini, and Greg Kroah-Hartman. Linux Device Drivers: Where the Kernel Meets the Hardware. “ O’Reilly Media, Inc.”, 2005.</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/sunnyanthony">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#In-the-user-space"><span class="toc-number">1.</span> <span class="toc-text">In the user space</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#In-the-Kernel-space"><span class="toc-number">2.</span> <span class="toc-text">In the Kernel space</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&text=Linux signal - IPC or Notification"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&is_video=false&description=Linux signal - IPC or Notification"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Linux signal - IPC or Notification&body=Check out this article: http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&name=Linux signal - IPC or Notification&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2017 A.C
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/sunnyanthony">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
