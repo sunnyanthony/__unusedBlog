@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang=Ch>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="GDB前情提要：由於目前要在qemu當中debug user space daemon。kernel可使用qemu搭配好的gdb來remote debug。但是user space該怎麼辦？所以就打算來試試gdbserver。在提到gdbserver之前先來記錄一下daemon當中會用到的指令（紀錄給自己看的～）。(我gdb使用gdb-dashboard來當作gdbinit的config，這個pr">
+<meta name="keywords" content="gdb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="about gdb - remote debug">
+<meta property="og:url" content="http://yoursite.com/2017/11/01/about-gdb-remote-debug/index.html">
+<meta property="og:site_name" content="Anthony">
+<meta property="og:description" content="GDB前情提要：由於目前要在qemu當中debug user space daemon。kernel可使用qemu搭配好的gdb來remote debug。但是user space該怎麼辦？所以就打算來試試gdbserver。在提到gdbserver之前先來記錄一下daemon當中會用到的指令（紀錄給自己看的～）。(我gdb使用gdb-dashboard來當作gdbinit的config，這個pr">
+<meta property="og:updated_time" content="2017-11-01T07:18:20.042Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="about gdb - remote debug">
+<meta name="twitter:description" content="GDB前情提要：由於目前要在qemu當中debug user space daemon。kernel可使用qemu搭配好的gdb來remote debug。但是user space該怎麼辦？所以就打算來試試gdbserver。在提到gdbserver之前先來記錄一下daemon當中會用到的指令（紀錄給自己看的～）。(我gdb使用gdb-dashboard來當作gdbinit的config，這個pr">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>about gdb - remote debug</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/sunnyanthony">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/11/01/test/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/06/27/Linux-signal-IPC-or-Notification/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/11/01/about-gdb-remote-debug/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/11/01/about-gdb-remote-debug/&text=about gdb - remote debug"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/11/01/about-gdb-remote-debug/&title=about gdb - remote debug"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/11/01/about-gdb-remote-debug/&is_video=false&description=about gdb - remote debug"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=about gdb - remote debug&body=Check out this article: http://yoursite.com/2017/11/01/about-gdb-remote-debug/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/11/01/about-gdb-remote-debug/&title=about gdb - remote debug"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/11/01/about-gdb-remote-debug/&title=about gdb - remote debug"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/11/01/about-gdb-remote-debug/&title=about gdb - remote debug"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/11/01/about-gdb-remote-debug/&title=about gdb - remote debug"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/11/01/about-gdb-remote-debug/&name=about gdb - remote debug&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#GDB"><span class="toc-number">1.</span> <span class="toc-text">GDB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#multi-processes"><span class="toc-number">1.0.1.</span> <span class="toc-text">multi-processes</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#multi-threads"><span class="toc-number">1.1.</span> <span class="toc-text">multi-threads</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意"><span class="toc-number">2.</span> <span class="toc-text">注意</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        about gdb - remote debug
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Anthony</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-11-01T06:21:30.000Z" itemprop="datePublished">2017-11-01</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/gdb/">gdb</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="GDB"><a href="#GDB" class="headerlink" title="GDB"></a>GDB</h2><p>前情提要：<br>由於目前要在qemu當中debug user space daemon。<br>kernel可使用qemu搭配好的gdb來remote debug。但是user space該怎麼辦？<br>所以就打算來試試gdbserver。在提到gdbserver之前先來記錄一下daemon當中會用到的指令（紀錄給自己看的～）。<br>(我gdb使用<a href="https://github.com/cyrus-and/gdb-dashboard" target="_blank" rel="external">gdb-dashboard</a>來當作gdbinit的config，這個project也提供一隻python輔助許多功能)</p>
+<h4 id="multi-processes"><a href="#multi-processes" class="headerlink" title="multi-processes"></a>multi-processes</h4><p>可使用<code>follow-fork-mode</code>決定要跟隨child或是parent。<br>或是使用<code>set detach-on-fork mode</code>來動態監控proscee。</p>
+<h3 id="multi-threads"><a href="#multi-threads" class="headerlink" title="multi-threads"></a>multi-threads</h3><ul>
+<li><code>set libthread-db-search-path path</code>一開始需要設定path去尋找libthread_db，才能對thread進行debug。(若需要)</li>
+<li><code>info threads</code> 顯示所有thread的id</li>
+<li><code>thread thread-id</code> 轉到指定得thread</li>
+<li><code>b file:postion thread all</code> 設置break point在所有thread上</li>
+<li><code>thread apply [thread-id-list] [all] arg</code> 設定arg在特定(全部)的thread上 </li>
+<li><code>set scheduler-locking off|on|step</code> 目前還沒用過</li>
+<li><code>set print thread-events</code>控制噴出的訊息</li>
+</ul>
+<p>###gdb server<br>首先因為我是使用qemu關係，因此需要先進行port forwardind。好險qemu提供hostfwd放便設定，否則要自行去對iptable進行更改。<br>設定好port後就可以安裝gdbserver。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get install gdbserver</div></pre></td></tr></table></figure></p>
+<p>這樣一來只需要<code>gdbserver ip:port ./elf</code>就可以等待client的連接。</p>
+<p>由於是在不同的platform上執行，因此需要arm-linux-…-gdb，好險ubuntu提供gdb-multiarch而不需要去<a href="https://launchpad.net/gdb-linaro" target="_blank" rel="external">Linaro</a>下載toolchain。<br>關於cross compile有空會再寫一篇。<br>因此只要在client平台上執行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">gdb-multiarch ./elf</div><div class="line">(gdb) target remote ip:port</div></pre></td></tr></table></figure></p>
+<p>就可以跟gdbserver連結。</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>gdbserver不支援follow-fork-mode，因此只好把daemon模式先關掉。然後使用attach pid方式去抓他。<br>或許有更好的方法，等我發現後再補上。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/sunnyanthony">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#GDB"><span class="toc-number">1.</span> <span class="toc-text">GDB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#multi-processes"><span class="toc-number">1.0.1.</span> <span class="toc-text">multi-processes</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#multi-threads"><span class="toc-number">1.1.</span> <span class="toc-text">multi-threads</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意"><span class="toc-number">2.</span> <span class="toc-text">注意</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/11/01/about-gdb-remote-debug/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/11/01/about-gdb-remote-debug/&text=about gdb - remote debug"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/11/01/about-gdb-remote-debug/&title=about gdb - remote debug"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/11/01/about-gdb-remote-debug/&is_video=false&description=about gdb - remote debug"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=about gdb - remote debug&body=Check out this article: http://yoursite.com/2017/11/01/about-gdb-remote-debug/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/11/01/about-gdb-remote-debug/&title=about gdb - remote debug"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/11/01/about-gdb-remote-debug/&title=about gdb - remote debug"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/11/01/about-gdb-remote-debug/&title=about gdb - remote debug"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/11/01/about-gdb-remote-debug/&title=about gdb - remote debug"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/11/01/about-gdb-remote-debug/&name=about gdb - remote debug&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2017 A.C
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/sunnyanthony">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
