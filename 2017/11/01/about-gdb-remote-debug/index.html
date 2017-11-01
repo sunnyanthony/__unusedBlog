@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="GDB前情提要：由於目前要在qemu當中debug user space daemon。kernel可使用qemu搭配好的gdb來remote debug。但是user space該怎麼辦？所以就打算來試試gdbserver。在提到gdbserver之前先來記錄一下daemon當中會用到的指令（紀錄給自己看的～）。(我gdb使用gdb-dashboard來當作gdbinit的config，這個pr">
+    <meta name="description" content="GDB前情提要：由於目前要在qemu當中debug user space daemon。kernel可使用qemu搭配好的gdb來remote debug。但是user space該怎麼辦？所以就打算來試試gdbserver。在提到gdbserver之前先來記錄一下在daemon debug當中會用到的指令（紀錄給自己看的～）。(我gdb使用gdb-dashboard來當作gdbinit的conf">
 <meta name="keywords" content="gdb">
 <meta property="og:type" content="article">
 <meta property="og:title" content="about gdb - remote debug">
 <meta property="og:url" content="http://yoursite.com/2017/11/01/about-gdb-remote-debug/index.html">
 <meta property="og:site_name" content="Anthony">
-<meta property="og:description" content="GDB前情提要：由於目前要在qemu當中debug user space daemon。kernel可使用qemu搭配好的gdb來remote debug。但是user space該怎麼辦？所以就打算來試試gdbserver。在提到gdbserver之前先來記錄一下daemon當中會用到的指令（紀錄給自己看的～）。(我gdb使用gdb-dashboard來當作gdbinit的config，這個pr">
-<meta property="og:updated_time" content="2017-11-01T07:18:20.042Z">
+<meta property="og:description" content="GDB前情提要：由於目前要在qemu當中debug user space daemon。kernel可使用qemu搭配好的gdb來remote debug。但是user space該怎麼辦？所以就打算來試試gdbserver。在提到gdbserver之前先來記錄一下在daemon debug當中會用到的指令（紀錄給自己看的～）。(我gdb使用gdb-dashboard來當作gdbinit的conf">
+<meta property="og:updated_time" content="2017-11-01T07:22:24.854Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="about gdb - remote debug">
-<meta name="twitter:description" content="GDB前情提要：由於目前要在qemu當中debug user space daemon。kernel可使用qemu搭配好的gdb來remote debug。但是user space該怎麼辦？所以就打算來試試gdbserver。在提到gdbserver之前先來記錄一下daemon當中會用到的指令（紀錄給自己看的～）。(我gdb使用gdb-dashboard來當作gdbinit的config，這個pr">
+<meta name="twitter:description" content="GDB前情提要：由於目前要在qemu當中debug user space daemon。kernel可使用qemu搭配好的gdb來remote debug。但是user space該怎麼辦？所以就打算來試試gdbserver。在提到gdbserver之前先來記錄一下在daemon debug當中會用到的指令（紀錄給自己看的～）。(我gdb使用gdb-dashboard來當作gdbinit的conf">
     
     
         
@@ -96,7 +96,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#GDB"><span class="toc-number">1.</span> <span class="toc-text">GDB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#multi-processes"><span class="toc-number">1.0.1.</span> <span class="toc-text">multi-processes</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#multi-threads"><span class="toc-number">1.1.</span> <span class="toc-text">multi-threads</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意"><span class="toc-number">2.</span> <span class="toc-text">注意</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#GDB"><span class="toc-number">1.</span> <span class="toc-text">GDB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#multi-processes"><span class="toc-number">1.0.1.</span> <span class="toc-text">multi-processes</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#multi-threads"><span class="toc-number">1.0.2.</span> <span class="toc-text">multi-threads</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gdb-server"><span class="toc-number">1.1.</span> <span class="toc-text">gdb server</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意"><span class="toc-number">2.</span> <span class="toc-text">注意</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -135,9 +135,9 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="GDB"><a href="#GDB" class="headerlink" title="GDB"></a>GDB</h2><p>前情提要：<br>由於目前要在qemu當中debug user space daemon。<br>kernel可使用qemu搭配好的gdb來remote debug。但是user space該怎麼辦？<br>所以就打算來試試gdbserver。在提到gdbserver之前先來記錄一下daemon當中會用到的指令（紀錄給自己看的～）。<br>(我gdb使用<a href="https://github.com/cyrus-and/gdb-dashboard" target="_blank" rel="external">gdb-dashboard</a>來當作gdbinit的config，這個project也提供一隻python輔助許多功能)</p>
+    <h2 id="GDB"><a href="#GDB" class="headerlink" title="GDB"></a>GDB</h2><p>前情提要：<br>由於目前要在qemu當中debug user space daemon。<br>kernel可使用qemu搭配好的gdb來remote debug。但是user space該怎麼辦？<br>所以就打算來試試gdbserver。在提到gdbserver之前先來記錄一下在daemon debug當中會用到的指令（紀錄給自己看的～）。<br>(我gdb使用<a href="https://github.com/cyrus-and/gdb-dashboard" target="_blank" rel="external">gdb-dashboard</a>來當作gdbinit的config，這個project也提供一隻python輔助許多功能)</p>
 <h4 id="multi-processes"><a href="#multi-processes" class="headerlink" title="multi-processes"></a>multi-processes</h4><p>可使用<code>follow-fork-mode</code>決定要跟隨child或是parent。<br>或是使用<code>set detach-on-fork mode</code>來動態監控proscee。</p>
-<h3 id="multi-threads"><a href="#multi-threads" class="headerlink" title="multi-threads"></a>multi-threads</h3><ul>
+<h4 id="multi-threads"><a href="#multi-threads" class="headerlink" title="multi-threads"></a>multi-threads</h4><ul>
 <li><code>set libthread-db-search-path path</code>一開始需要設定path去尋找libthread_db，才能對thread進行debug。(若需要)</li>
 <li><code>info threads</code> 顯示所有thread的id</li>
 <li><code>thread thread-id</code> 轉到指定得thread</li>
@@ -146,7 +146,7 @@
 <li><code>set scheduler-locking off|on|step</code> 目前還沒用過</li>
 <li><code>set print thread-events</code>控制噴出的訊息</li>
 </ul>
-<p>###gdb server<br>首先因為我是使用qemu關係，因此需要先進行port forwardind。好險qemu提供hostfwd放便設定，否則要自行去對iptable進行更改。<br>設定好port後就可以安裝gdbserver。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get install gdbserver</div></pre></td></tr></table></figure></p>
+<h3 id="gdb-server"><a href="#gdb-server" class="headerlink" title="gdb server"></a>gdb server</h3><p>首先因為我是使用qemu關係，因此需要先進行port forwarding。好險qemu提供hostfwd放便設定，否則要自行去對iptable進行更改。<br>設定好port後就可以安裝gdbserver。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get install gdbserver</div></pre></td></tr></table></figure></p>
 <p>這樣一來只需要<code>gdbserver ip:port ./elf</code>就可以等待client的連接。</p>
 <p>由於是在不同的platform上執行，因此需要arm-linux-…-gdb，好險ubuntu提供gdb-multiarch而不需要去<a href="https://launchpad.net/gdb-linaro" target="_blank" rel="external">Linaro</a>下載toolchain。<br>關於cross compile有空會再寫一篇。<br>因此只要在client平台上執行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">gdb-multiarch ./elf</div><div class="line">(gdb) target remote ip:port</div></pre></td></tr></table></figure></p>
 <p>就可以跟gdbserver連結。</p>
@@ -177,7 +177,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#GDB"><span class="toc-number">1.</span> <span class="toc-text">GDB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#multi-processes"><span class="toc-number">1.0.1.</span> <span class="toc-text">multi-processes</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#multi-threads"><span class="toc-number">1.1.</span> <span class="toc-text">multi-threads</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意"><span class="toc-number">2.</span> <span class="toc-text">注意</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#GDB"><span class="toc-number">1.</span> <span class="toc-text">GDB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#multi-processes"><span class="toc-number">1.0.1.</span> <span class="toc-text">multi-processes</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#multi-threads"><span class="toc-number">1.0.2.</span> <span class="toc-text">multi-threads</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gdb-server"><span class="toc-number">1.1.</span> <span class="toc-text">gdb server</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意"><span class="toc-number">2.</span> <span class="toc-text">注意</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
