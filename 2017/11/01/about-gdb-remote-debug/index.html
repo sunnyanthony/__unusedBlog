@@ -13,7 +13,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/11/01/about-gdb-remote-debug/index.html">
 <meta property="og:site_name" content="Anthony">
 <meta property="og:description" content="GDB前情提要：由於目前要在qemu當中debug user space daemon。kernel可使用qemu搭配好的gdb來remote debug。但是user space該怎麼辦？所以就打算來試試gdbserver。在提到gdbserver之前先來記錄一下在daemon debug當中會用到的指令（紀錄給自己看的～）。(我gdb使用gdb-dashboard來當作gdbinit的conf">
-<meta property="og:updated_time" content="2017-11-01T07:22:24.854Z">
+<meta property="og:updated_time" content="2017-11-02T06:52:54.666Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="about gdb - remote debug">
 <meta name="twitter:description" content="GDB前情提要：由於目前要在qemu當中debug user space daemon。kernel可使用qemu搭配好的gdb來remote debug。但是user space該怎麼辦？所以就打算來試試gdbserver。在提到gdbserver之前先來記錄一下在daemon debug當中會用到的指令（紀錄給自己看的～）。(我gdb使用gdb-dashboard來當作gdbinit的conf">
@@ -150,7 +150,7 @@
 <p>這樣一來只需要<code>gdbserver ip:port ./elf</code>就可以等待client的連接。</p>
 <p>由於是在不同的platform上執行，因此需要arm-linux-…-gdb，好險ubuntu提供gdb-multiarch而不需要去<a href="https://launchpad.net/gdb-linaro" target="_blank" rel="external">Linaro</a>下載toolchain。<br>關於cross compile有空會再寫一篇。<br>因此只要在client平台上執行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">gdb-multiarch ./elf</div><div class="line">(gdb) target remote ip:port</div></pre></td></tr></table></figure></p>
 <p>就可以跟gdbserver連結。</p>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>gdbserver不支援follow-fork-mode，因此只好把daemon模式先關掉。然後使用attach pid方式去抓他。<br>或許有更好的方法，等我發現後再補上。</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>gdbserver不支援follow-fork-mode，因此只好把daemon模式先關掉。然後使用attach pid方式去抓他(<code>gdbserver –attach ip:port pid</code>)。<br>或許有更好的方法，等我發現後再補上。</p>
 
   </div>
 </article>
