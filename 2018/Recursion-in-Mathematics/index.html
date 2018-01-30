@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/Recursion-in-Mathematics/index.html">
 <meta property="og:site_name" content="Anthony">
 <meta property="og:description" content="Recursive?In computer programming, we will use recursive call to solve subproblem. You can find it in a lot of algorithms, e.g. divide and conquer, dynamic programming …etc. The pseudo code is as foll">
-<meta property="og:updated_time" content="2018-01-30T15:40:10.491Z">
+<meta property="og:updated_time" content="2018-01-30T16:27:43.882Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Recursion_in_Mathematics">
 <meta name="twitter:description" content="Recursive?In computer programming, we will use recursive call to solve subproblem. You can find it in a lot of algorithms, e.g. divide and conquer, dynamic programming …etc. The pseudo code is as foll">
@@ -95,7 +95,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Recursive"><span class="toc-number">1.</span> <span class="toc-text">Recursive?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Master-Theorem"><span class="toc-number">2.</span> <span class="toc-text">Master Theorem</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Definition"><span class="toc-number">2.0.1.</span> <span class="toc-text">Definition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Proof"><span class="toc-number">2.0.2.</span> <span class="toc-text">Proof</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Recursive"><span class="toc-number">1.</span> <span class="toc-text">Recursive?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Master-Theorem"><span class="toc-number">2.</span> <span class="toc-text">Master Theorem</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Definition"><span class="toc-number">2.0.1.</span> <span class="toc-text">Definition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Proof"><span class="toc-number">2.0.2.</span> <span class="toc-text">Proof</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Total-cost"><span class="toc-number">2.0.2.0.1.</span> <span class="toc-text">Total cost</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">3.</span> <span class="toc-text">Reference</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -146,12 +146,21 @@
 </ul>
 </li>
 </ul>
-<h3 id="Proof"><a href="#Proof" class="headerlink" title="Proof"></a>Proof</h3><p>First, the recursive tree will give you the overview of master theorem.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">                                        T(n)</div><div class="line">			                  T(n/b) ...  a  ... T(n/b)</div><div class="line"></div><div class="line">             T(n/b^2) ... a ... T(n/b^2)  ...  T(n/b^2) ... a ... T(n/b^2)</div><div class="line">   T(n/b^(log(n)/log(b) - 1)) ...  a^(log(n)/log(b) -1 ) ...T(n/b^(log(n)/log(b) - 1))</div><div class="line"></div><div class="line">O(1) ............................  a^(log(n)/log(b))  .................................. O(1)</div></pre></td></tr></table></figure></p>
+<h3 id="Proof"><a href="#Proof" class="headerlink" title="Proof"></a>Proof</h3><p>First, the recursive tree will give you the overview of master theorem.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">                            f(n)</div><div class="line">                  f(n/b) ...  a  ... f(n/b)</div><div class="line"></div><div class="line">          f(n/b^2) .......... a^2 .........  f(n/b^2)</div><div class="line">f(n/b^(log(n)/log(b) - 1)) ...........  f(n/b^(log(n)/log(b) - 1))</div><div class="line">                 |                            |</div><div class="line">                 +--  a^(log(n)/log(b) -1 ) --+</div><div class="line"></div><div class="line">O(1) .................  a^(log(n)/log(b))  ................. O(1)</div></pre></td></tr></table></figure></p>
 <ul>
 <li>Tree hight: ${log_b{n}}$</li>
 <li>the element of each level: ${a^{level}}$</li>
-<li>the number of leaf: ${a^{log_b{n}}}$ </li>
+<li>the number of leaf: ${a^{log_b{n}}}$</li>
 </ul>
+<h5 id="Total-cost"><a href="#Total-cost" class="headerlink" title="Total cost"></a>Total cost</h5><ul>
+<li>Total cast = all leaves + all node weight<ul>
+<li>all leaves = ${ \Theta(n^{log_b{a}}) }$</li>
+<li>all node weight = ${ {\sum}_{i=0}^{log_b{n-1}}{a^i}{f({n \over {b^i}})}}$</li>
+</ul>
+</li>
+</ul>
+<p>Second, we will define each case with summation of each node weight.</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>Cormen, Thomas H.; Leiserson, Charles E.; Rivest, Ronald L.; Stein, Clifford (2009) [1990]. Introduction to Algorithms (3rd ed.). MIT Press and McGraw-Hill.</p>
 
   </div>
 </article>
@@ -178,7 +187,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Recursive"><span class="toc-number">1.</span> <span class="toc-text">Recursive?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Master-Theorem"><span class="toc-number">2.</span> <span class="toc-text">Master Theorem</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Definition"><span class="toc-number">2.0.1.</span> <span class="toc-text">Definition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Proof"><span class="toc-number">2.0.2.</span> <span class="toc-text">Proof</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Recursive"><span class="toc-number">1.</span> <span class="toc-text">Recursive?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Master-Theorem"><span class="toc-number">2.</span> <span class="toc-text">Master Theorem</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Definition"><span class="toc-number">2.0.1.</span> <span class="toc-text">Definition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Proof"><span class="toc-number">2.0.2.</span> <span class="toc-text">Proof</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Total-cost"><span class="toc-number">2.0.2.0.1.</span> <span class="toc-text">Total cost</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">3.</span> <span class="toc-text">Reference</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
