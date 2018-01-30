@@ -10,7 +10,7 @@
 <meta name="keywords" content="linux,IPC,signal,ldd">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux signal - IPC or Notification">
-<meta property="og:url" content="http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/Linux-signal-IPC-or-Notification/index.html">
 <meta property="og:site_name" content="Anthony">
 <meta property="og:description" content="Signal is a IPC machanism in UNIX. You also can call signals are traps(software interrputs).Use signals can achieve asynchronous event(notification).  In the user spaceFirst, we need to set up signal">
 <meta property="og:updated_time" content="2017-06-28T03:11:37.000Z">
@@ -68,10 +68,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2017/11/01/about-gdb-remote-debug/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        <li><a class="icon" href="/2017/about-gdb-remote-debug/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
         
         
-        <li><a class="icon" href="/2017/06/24/About-sysfs/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        <li><a class="icon" href="/2017/About-sysfs/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
         <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
@@ -84,16 +84,16 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&text=Linux signal - IPC or Notification"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&is_video=false&description=Linux signal - IPC or Notification"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Linux signal - IPC or Notification&body=Check out this article: http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&name=Linux signal - IPC or Notification&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/&text=Linux signal - IPC or Notification"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/&is_video=false&description=Linux signal - IPC or Notification"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Linux signal - IPC or Notification&body=Check out this article: http://yoursite.com/2017/Linux-signal-IPC-or-Notification/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/&name=Linux signal - IPC or Notification&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -189,16 +189,16 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&text=Linux signal - IPC or Notification"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&is_video=false&description=Linux signal - IPC or Notification"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Linux signal - IPC or Notification&body=Check out this article: http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/06/27/Linux-signal-IPC-or-Notification/&name=Linux signal - IPC or Notification&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/&text=Linux signal - IPC or Notification"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/&is_video=false&description=Linux signal - IPC or Notification"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Linux signal - IPC or Notification&body=Check out this article: http://yoursite.com/2017/Linux-signal-IPC-or-Notification/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/&title=Linux signal - IPC or Notification"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/Linux-signal-IPC-or-Notification/&name=Linux signal - IPC or Notification&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -235,9 +235,25 @@
       </ul>
     </nav>
   </div>
-</footer><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+</footer>
+
 <script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("MathJax config");
 </script>
 
 <script type="text/x-mathjax-config">
@@ -249,11 +265,10 @@
   });
 </script>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+<script type="text/javascript" src="custom_mathjax_source">
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
-
 </body>
 </html>
 <!-- styles -->

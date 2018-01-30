@@ -10,7 +10,7 @@
 <meta name="keywords" content="linux,socket,udp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux socket - UDP-what&#39;s append?">
-<meta property="og:url" content="http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/Linux-socket-UDP-what-s-append/index.html">
 <meta property="og:site_name" content="Anthony">
 <meta property="og:description" content="最近剛好在trace socket的udp，這篇會提一下跟tcp的不同，並且也會稍微地講一下lwip裡面怎麼實作udp。我的文章通常只是記錄overview，所以太detail的地方就請各位自己去trace code或是看看網路上的資源。 What’s socketSocket是隸屬於kernel當中的介面。順帶一提，socket有三個較特別的domain：  Unix domain IPC的一種">
 <meta property="og:updated_time" content="2017-05-29T08:08:23.000Z">
@@ -68,10 +68,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2017/06/24/About-sysfs/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        <li><a class="icon" href="/2017/About-sysfs/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
         
         
-        <li><a class="icon" href="/2017/05/17/About-printf/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        <li><a class="icon" href="/2017/About-printf/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
         <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
@@ -84,16 +84,16 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/&text=Linux socket - UDP-what&#39;s append?"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/&is_video=false&description=Linux socket - UDP-what&#39;s append?"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Linux socket - UDP-what&#39;s append?&body=Check out this article: http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/&name=Linux socket - UDP-what&#39;s append?&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/&text=Linux socket - UDP-what&#39;s append?"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/&is_video=false&description=Linux socket - UDP-what&#39;s append?"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Linux socket - UDP-what&#39;s append?&body=Check out this article: http://yoursite.com/2017/Linux-socket-UDP-what-s-append/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/&name=Linux socket - UDP-what&#39;s append?&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -208,16 +208,16 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/&text=Linux socket - UDP-what&#39;s append?"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/&is_video=false&description=Linux socket - UDP-what&#39;s append?"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Linux socket - UDP-what&#39;s append?&body=Check out this article: http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/05/25/Linux-socket-UDP-what-s-append/&name=Linux socket - UDP-what&#39;s append?&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/&text=Linux socket - UDP-what&#39;s append?"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/&is_video=false&description=Linux socket - UDP-what&#39;s append?"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Linux socket - UDP-what&#39;s append?&body=Check out this article: http://yoursite.com/2017/Linux-socket-UDP-what-s-append/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/&title=Linux socket - UDP-what&#39;s append?"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/Linux-socket-UDP-what-s-append/&name=Linux socket - UDP-what&#39;s append?&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -254,9 +254,25 @@
       </ul>
     </nav>
   </div>
-</footer><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+</footer>
+
 <script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("MathJax config");
 </script>
 
 <script type="text/x-mathjax-config">
@@ -268,11 +284,10 @@
   });
 </script>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+<script type="text/javascript" src="custom_mathjax_source">
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
-
 </body>
 </html>
 <!-- styles -->
