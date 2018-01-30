@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/Recursion-in-Mathematics/index.html">
 <meta property="og:site_name" content="Anthony">
 <meta property="og:description" content="Recursive?In computer programming, we will use recursive call to solve subproblem. You can find it in a lot of algorithms, e.g. divide and conquer, dynamic programming …etc. The pseudo code is as foll">
-<meta property="og:updated_time" content="2018-01-30T16:27:43.882Z">
+<meta property="og:updated_time" content="2018-01-30T17:40:21.509Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Recursion_in_Mathematics">
 <meta name="twitter:description" content="Recursive?In computer programming, we will use recursive call to solve subproblem. You can find it in a lot of algorithms, e.g. divide and conquer, dynamic programming …etc. The pseudo code is as foll">
@@ -159,7 +159,26 @@
 </ul>
 </li>
 </ul>
-<p>Second, we will define each case with summation of each node weight.</p>
+<p>Second, we will define each case with summation of each node weight by the following function:<br>$$ w(n) = {\sum}_{i=0}^{log_b{n-1}}{a^i}{f({n \over {b^i}})} $$</p>
+<ol>
+<li>case 1: substitute ${ O(n^{log_b{a}-\epsilon}) }$ into ${f({n \over {b^i}})}$<ul>
+<li>${ {\sum}_{i=0}^{log_b{n-1}}{a^i}{({n \over {b^i}})^{log_b{a}-\epsilon} }}$</li>
+<li>the n is not related with the summation parameter, so</li>
+<li>${ {n^{log_b{a}-\epsilon}}{\sum}_{i=0}^{log_b{n-1}}{a^i}({1 \over {b^i}})^{log_b{a}-\epsilon}}$</li>
+<li>the ${b^{(log_b{a})-(\epsilon)}}$ is equal ${ {b^{(log_b{a})}}\over{b^{\epsilon}} }$</li>
+<li>${ {n^{log_b{a}-\epsilon}} {\sum}_{i=0}^{log_b{n-1}}({ab^{\epsilon} \over {b^{log_b{a}}}})^{i} }$</li>
+<li>the ${ b^{log_b{a}} }$ is equal ${ a^{log_b{b}}} $</li>
+<li>use geometric series formulas</li>
+<li>${ {n^{log_b{a}-\epsilon}}({n^{\epsilon} - 1 \over {b^{\epsilon} - 1}}) }$</li>
+<li>since b and $\epsilon$ are constants then ${ {n^{log_b{a}-\epsilon}}O(n^\epsilon) }$</li>
+<li>Total cast:<ul>
+<li>${ \Theta(n^{log_b{a}}) + w(n) = \Theta(n^{log_b{a}}) + O(n^{log_b{a}})}$ </li>
+<li>${O(n^{log_b{a}})}$</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>Cormen, Thomas H.; Leiserson, Charles E.; Rivest, Ronald L.; Stein, Clifford (2009) [1990]. Introduction to Algorithms (3rd ed.). MIT Press and McGraw-Hill.</p>
 
   </div>
