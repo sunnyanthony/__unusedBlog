@@ -7,12 +7,13 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="Recursive?In computer programming, we will use recursive call to solve subproblem. You can find it in a lot of algorithms, e.g. divide and conquer, dynamic programming …etc. The pseudo code is as foll">
+<meta name="keywords" content="algorithms,mathematics">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Recursion_in_Mathematics">
 <meta property="og:url" content="http://yoursite.com/2018/Recursion-in-Mathematics/index.html">
 <meta property="og:site_name" content="Anthony">
 <meta property="og:description" content="Recursive?In computer programming, we will use recursive call to solve subproblem. You can find it in a lot of algorithms, e.g. divide and conquer, dynamic programming …etc. The pseudo code is as foll">
-<meta property="og:updated_time" content="2018-01-30T17:43:16.949Z">
+<meta property="og:updated_time" content="2018-01-31T16:31:17.517Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Recursion_in_Mathematics">
 <meta name="twitter:description" content="Recursive?In computer programming, we will use recursive call to solve subproblem. You can find it in a lot of algorithms, e.g. divide and conquer, dynamic programming …etc. The pseudo code is as foll">
@@ -123,6 +124,11 @@
 
 
       
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/algorithms/">algorithms</a>, <a class="tag-link" href="/tags/mathematics/">mathematics</a>
+    </div>
+
 
     </div>
   </header>
@@ -131,14 +137,15 @@
   <div class="content" itemprop="articleBody">
     <h1 id="Recursive"><a href="#Recursive" class="headerlink" title="Recursive?"></a>Recursive?</h1><p>In computer programming, we will use recursive call to solve subproblem. You can find it in a lot of algorithms, e.g. divide and conquer, dynamic programming …etc. The pseudo code is as follows.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">def f(n):</div><div class="line">	if n == 1:</div><div class="line">		return 1</div><div class="line">	else</div><div class="line">		return f(n/b) + g(n)</div></pre></td></tr></table></figure></p>
 <p>Now, you should know waht is resursive. So we will present some mathmatics for the recursion.</p>
-<h1 id="Master-Theorem"><a href="#Master-Theorem" class="headerlink" title="Master Theorem"></a>Master Theorem</h1><h3 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h3><p>The recurrence relation is :<br>$$ T(n) = aT({n \over b}) + f(n) $$</p>
+<h1 id="Master-Theorem"><a href="#Master-Theorem" class="headerlink" title="Master Theorem"></a>Master Theorem</h1><h3 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h3><p>The recurrence relation is :<br>$$ T(n) = aT({n \over b}) + f(n) , a \geq 1, b &gt; 1$$</p>
 <ul>
 <li>case 1: if $ f(n)$ is equal to ${ O(n^{log_b{a}-\epsilon}) }$<ul>
 <li>then ${T(n) = O(n^{log_b{a}})}$</li>
 </ul>
 </li>
-<li>case 2: if f(n) is equal to ${\Theta(n^{log_b{a}})}$<ul>
-<li>then ${T(n) = \theta(n^{log_b{a}}log{n})}$</li>
+<li>case 2: if f(n) is equal to ${\Theta(n^{log_b{a}}log^{k}(n))}$<ul>
+<li>then ${T(n) = \theta(n^{log_b{a}}log^{k+1}(n))}$, $ \exists k \geq 0 $</li>
+<li>also ${T(n) = O(n^{log_b{a}}log(n))}$</li>
 </ul>
 </li>
 <li>case 3: if f(n) is equal to ${\Omega(n^{log_b{a}+\epsilon})}$<ul>
@@ -165,7 +172,7 @@
 <li>${ {\sum}_{i=0}^{log_b{n-1}}{a^i}{({n \over {b^i}})^{log_b{a}-\epsilon} }}$</li>
 <li>the n is not related with the summation parameter, so</li>
 <li>${ {n^{log_b{a}-\epsilon}}{\sum}_{i=0}^{log_b{n-1}}{a^i}({1 \over {b^i}})^{log_b{a}-\epsilon}}$</li>
-<li>the ${b^{(log_b{a})-(\epsilon)}}$ is equal ${ {b^{(log_b{a})}}\over{b^{\epsilon}} }$</li>
+<li>${b^{(log_b{a})-(\epsilon)}}$ is equal ${ {b^{(log_b{a})}}\over{b^{\epsilon}} }$</li>
 <li>${ {n^{log_b{a}-\epsilon}} {\sum}_{i=0}^{log_b{n-1}}({ab^{\epsilon} \over {b^{log_b{a}}}})^{i} }$</li>
 <li>the ${ b^{log_b{a}} }$ is equal ${ a^{log_b{b}}} $</li>
 <li>use geometric series formulas</li>
@@ -174,6 +181,52 @@
 <li>Total cast:<ul>
 <li>${ \Theta(n^{log_b{a}}) + w(n) = \Theta(n^{log_b{a}}) + O(n^{log_b{a}})}$ </li>
 <li>${O(n^{log_b{a}})}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>case 2: substitute ${ \Theta(n^{log_b{a}}{log^{k}(n)}) }$ into ${f({n \over {b^i}})}$<ul>
+<li>${ {\sum}_{i=0}^{log_b{n-1}}{a^i}{({n \over {b^i}})^{log_b{a}} }log^{k}(n)}$</li>
+<li>the n is not related with the summation parameter, so</li>
+<li>${ {n^{log_b{a}}}log^{k}(n){\sum}_{i=0}^{log_b{n-1}}{a^i}({1 \over {b^i}})^{log_b{a}}}$</li>
+<li>${ {n^{log_b{a}}}log^{k}(n) {\sum}_{i=0}^{log_b{n-1}}({a \over {b^{log_b{a}}}})^{i} }$</li>
+<li>the ${ b^{log_b{a}} }$ is equal ${ a^{log_b{b}}} $</li>
+<li>${ {n^{log_b{a}}}log^{k}(n) {\sum}_{i=0}^{log_b{n-1}}({a \over a})^{i} }$</li>
+<li>use arithmetic series formulas</li>
+<li>${ {n^{log_b{a}}}log^{k}(n)({log_b(n)+1}) }$</li>
+<li>Changing the base</li>
+<li>${ {n^{log_b{a}}}log^{k}(n)({log(n) \over log(b)}+1) }$</li>
+<li>${ (c1){n^{log_b{a}}}{log^{k+1}(n)} \leq{n^{log_b{a}}}log^{k}(n)({log(n) \over log(b)}+1) \leq (c2){n^{log_b{a}}}{log^{k+1}(n)}, \exists c1, c2 \geq 0 }$</li>
+<li>${ \Theta(n^{log_b{a}}{log^{k+1}(n))} }$</li>
+<li>Total cast:<ul>
+<li>${ \Theta(n^{log_b{a}}) + w(n) = \Theta(n^{log_b{a}}) + \Theta(n^{log_b{a}}{log^{k+1}(n))}}$ </li>
+<li>${\Theta(n^{log_b{a}}{log^{k+1}(n))}}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>case 3: substitute ${ \Omega(n^{log_b{a}+\epsilon}) }$ into ${f({n \over {b^i}})}$<ul>
+<li>${ {\sum}_{i=0}^{log_b{n-1}}{a^i}{({n \over {b^i}})^{log_b{a}+\epsilon} }}$</li>
+<li>the n is not related with the summation parameter, so</li>
+<li>${ {n^{log_b{a}+\epsilon}}{\sum}_{i=0}^{log_b{n-1}}{a^i}({1 \over {b^i}})^{log_b{a}+\epsilon}}$</li>
+<li>${ {n^{log_b{a}+\epsilon}} {\sum}_{i=0}^{log_b{n-1}}({a \over {b^{log_b{a} + \epsilon}}})^{i} }$</li>
+<li>the ${ b^{log_b{a}} }$ is equal ${ a^{log_b{b}}} $</li>
+<li>${ {n^{log_b{a}+\epsilon}} {\sum}_{i=0}^{log_b{n-1}}({a \over {ab^\epsilon}})^{i} }$</li>
+<li>${ {n^{log_b{a}+\epsilon}} {\sum}_{i=0}^{log_b{n-1}}({1 \over {b^\epsilon}})^{i} }$</li>
+<li>use geometric series formulas</li>
+<li>${ {n^{log_b{a}+\epsilon}}({b^{-\epsilon{log_b{n}}} - 1 \over {b^{-\epsilon} - 1}}) }$</li>
+<li>${ {n^{log_b{a}+\epsilon}}({n^{-\epsilon} - 1 \over {b^{-\epsilon} - 1}}) \leq {n^{log_b{a}+\epsilon}}({1 \over {1-b^{-\epsilon}}}) }$, all sufficiently large $n$</li>
+<li>$ \because a({n \over b})^{log_b{a}+\epsilon} \leq c{n^{log_b{a}+\epsilon}}$<ul>
+<li>$ {n^{log_b{a}+\epsilon}({a \over {ab^\epsilon}}) \leq c{n^{log_b{a}+\epsilon}} }$</li>
+<li>$ {b^{-\epsilon} \leq c , \exists c &lt; 1}$</li>
+</ul>
+</li>
+<li>$\therefore {n^{log_b{a}+\epsilon}}({1 \over {1-b^{-\epsilon}}}) \leq {n^{log_b{a}+\epsilon}}({1 \over {1-c}})$, c is constant</li>
+<li>$O(n^{log_b{a}+\epsilon}) = O(f(n))$</li>
+<li>Total cast:<ul>
+<li>${ \Theta(n^{log_b{a}}) + w(n) = \Theta(n^{log_b{a}}) + O(f(n))}$ </li>
+<li>$\because f(n)=\Omega(n^{log_b{a}+\epsilon}) \geq \Theta(n^{log_b{a}}) $</li>
+<li>$\therefore$ Tatal cost: $O(f(n)) $</li>
 </ul>
 </li>
 </ul>
