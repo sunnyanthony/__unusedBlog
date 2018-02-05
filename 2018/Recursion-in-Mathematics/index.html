@@ -13,7 +13,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/Recursion-in-Mathematics/index.html">
 <meta property="og:site_name" content="Anthony">
 <meta property="og:description" content="Recursive?In computer programming, we will use recursive call to solve subproblem. You can find it in a lot of algorithms, e.g. divide and conquer, dynamic programming …etc. The pseudo code is as foll">
-<meta property="og:updated_time" content="2018-01-31T16:31:17.517Z">
+<meta property="og:updated_time" content="2018-02-03T10:02:16.624Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Recursion_in_Mathematics">
 <meta name="twitter:description" content="Recursive?In computer programming, we will use recursive call to solve subproblem. You can find it in a lot of algorithms, e.g. divide and conquer, dynamic programming …etc. The pseudo code is as foll">
@@ -143,13 +143,17 @@
 <li>then ${T(n) = O(n^{log_b{a}})}$</li>
 </ul>
 </li>
-<li>case 2: if f(n) is equal to ${\Theta(n^{log_b{a}}log^{k}(n))}$<ul>
+<li>case 2: if f(n) is equal to ${\Theta(n^{log_b{a}}log^{k}(n)), k \geq 0}$<ul>
 <li>then ${T(n) = \theta(n^{log_b{a}}log^{k+1}(n))}$, $ \exists k \geq 0 $</li>
 <li>also ${T(n) = O(n^{log_b{a}}log(n))}$</li>
 </ul>
 </li>
 <li>case 3: if f(n) is equal to ${\Omega(n^{log_b{a}+\epsilon})}$<ul>
 <li>then ${T(n) = O(f(n))}$</li>
+</ul>
+</li>
+<li>case 4: if f(n) is equal to ${\Theta(n^{log_b{a}}log^{k}(n)), k = -1}$<ul>
+<li>then ${T(n) = \theta(n^{log_b{a}}loglog(n))}$</li>
 </ul>
 </li>
 </ul>
